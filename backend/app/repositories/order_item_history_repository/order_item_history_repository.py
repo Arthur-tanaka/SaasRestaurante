@@ -15,4 +15,4 @@ class OrderItemHistoryRepository:
     def get_by_item_id(self, order_item_id: UUID) -> list[OrderItemHistory]:
         return self.db.query(OrderItemHistory).filter(
             OrderItemHistory.order_item_id == order_item_id
-        ).all()
+        ).all() 
