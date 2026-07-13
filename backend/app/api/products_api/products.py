@@ -80,6 +80,7 @@ def deactivate_product(
 
 """ 
 
+
 Módulo de Rotas de Produtos
 ---------------------------
 
@@ -116,5 +117,6 @@ Validações:
     Criação, listagem, busca, atualização de preço e desativação (solf, delete)
     Tratamento de erros: 400 (validação), 404 (não encontrado), 201/204 (sucesso)
     Validações: nome não vazio, preço > 0
+    
 
 """
