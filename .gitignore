@@ -1,0 +1,30 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Banco de dados
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# Frontend (Vite/Node)
+frontend/node_modules/
+frontend/dist/
+
+# VS Code
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
