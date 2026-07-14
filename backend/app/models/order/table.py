@@ -2,7 +2,7 @@ from datetime import datetime
 import uuid
 import app.core.database
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Numeric, Boolean, DateTime, ForeignKey, Integer, Index
+from sqlalchemy import Column, String, DateTime, Integer
 
 class Table(app.core.database.Base):
     __tablename__ = "table"
