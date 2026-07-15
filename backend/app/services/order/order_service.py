@@ -23,3 +23,21 @@ class OrderService:
     def get_by_id(self, order_id: UUID) -> Order | None:
         return self.order_repository.get_by_id(order_id)
     
+class OpenOrder:
+    def __init__(self, order_service: OrderService):
+        self.order_service = order_service
+    
+    def execute(self, table_id: UUID) -> Order:
+        return self.order_service.open_order(table_id)
+
+class AddItems:
+    def __init__(self, order_service: OrderService):
+        self.order_service = order_service
+    
+    def execute(self, order_id: UUID, item_id: UUID, quantity: int) -> Order:
+        order = self.order_service.get_by_id(order_id)
+        
+        if not order:
+            raise ValueError(f"Pedido com ID {order_id} não encontrado.")
+        
+        raise NotImplementedError("add_items ainda depende de order_item_repository")
