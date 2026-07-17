@@ -23,5 +23,9 @@ class Prodcut(Base):
     active = Column(Boolean, nullable=False, 
                     default=True)
     
+    category_id = Column(UUID(as_uuid=True),
+                         ForeignKey("categories.id"), nullable=True)
+
     crated_at = Column(DateTime, nullable=False, 
                        default=datetime.utcnow)
+    
