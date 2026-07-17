@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
-from app.models.order_item_history import OrderItemHistory
+from app.models.order_history.order_item_history import OrderItemHistory
 
 class OrderItemHistoryRepository:
     def __init__(self, db: Session):

@@ -1,7 +1,7 @@
 # repositories/product_repository.py
 from sqlalchemy.orm import Session
 from uuid import UUID
-from app.models.product import Product
+from app.models.product.product import Product
 
 class ProductRepository:
     def __init__(self, db: Session):

@@ -6,7 +6,7 @@ from datetime import datetime
 import app.core.database
 
 
-class OrderItem(app.core.datebase.Base):
+class OrderItem(app.core.database.Base):
     __tablename__ = "order_item"
     __table_args__ = (
         CheckConstraint("quantity > 0", name="check_quantitty_positive"),
@@ -42,4 +42,4 @@ class OrderItem(app.core.datebase.Base):
     
     created_at = Column(DateTime, 
                         nullable=False, 
-                        default=datetime.utccnnow)
+                        default=datetime.utcnow)
