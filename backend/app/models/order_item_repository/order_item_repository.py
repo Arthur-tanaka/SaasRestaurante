@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
-from app.models.order_item import OrderItem
+from app.models.order_item.order_item import OrderItem
 
 class OrderItemRepository:
     def __init__(self, db: Session):

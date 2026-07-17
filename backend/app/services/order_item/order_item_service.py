@@ -1,11 +1,12 @@
 from uuid import UUID
 from datetime import datetime
 from sqlalchemy.orm import Session
-from app.models.order_item import OrderItem
-from app.models.order_item_history import OrderItemHistory
-from app.repositories.order_item_repository import OrderItemRepository
-from app.repositories.order_item_history_repository import OrderItemHistoryRepository
-from app.repositories.product_repository import ProductRepository
+from app.repositories.product_repository.product_repository import ProductRepository
+from app.models.order_item_repository.order_item_repository import OrderItemRepository
+from app.models.order_item.order_item import OrderItem
+from app.models.order_history.order_item_history import OrderItemHistory
+from app.repositories.order_item_history_repository.order_item_history_repository import OrderItemHistoryRepository
+from app.models.product.product import Product
 
 
 class ItemNotFoundException(Exception):
@@ -27,7 +28,7 @@ class ProductNotFoundException(Exception):
 class OrderItemService:
     def __init__(self, db: Session):
         self.db = db
-        self.order_item_repo = OrderItemRepository(db)
+        self.order_item_repo =  OrderItemRepository(db)
         self.history_repo = OrderItemHistoryRepository(db)
         self.product_repo = ProductRepository(db)
 
@@ -114,7 +115,6 @@ class OrderItemService:
         return self.history_repo.get_by_item_id(item_id)
 
     def update_item_status(self, item_id: UUID, new_status: str, changed_by: UUID, reason: str = None) -> OrderItem:
-       
         item = self.order_item_repo.get_by_id(item_id)
         if item is None:
             raise ItemNotFoundException(f"Item {item_id} não encontrado")
@@ -143,14 +143,12 @@ class OrderItemService:
         return self.order_item_repo.get_by_order_id(order_id)
 
     def get_item_by_id(self, item_id: UUID) -> OrderItem:
-      
         item = self.order_item_repo.get_by_id(item_id)
         if item is None:
             raise ItemNotFoundException(f"Item {item_id} não encontrado")
         return item
 
-    def update_quantity(self, item_id: UUID, new_quantity: int, changed_by: UUID, reason: str = None) -> OrderItem:
-       
+    def update_quantity(self, item_id: UUID, new_quantity: int, changed_by: UUID, reason: str = None) -> OrderItem: 
         item = self.order_item_repo.get_by_id(item_id)
         if item is None:
             raise ItemNotFoundException(f"Item {item_id} não encontrado")
@@ -186,7 +184,6 @@ class OrderItemService:
         return item
 
     def get_cancellable_quantity(self, item_id: UUID) -> int:
-       
         item = self.order_item_repo.get_by_id(item_id)
         if item is None:
             raise ItemNotFoundException(f"Item {item_id} não encontrado")

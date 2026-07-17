@@ -1,13 +1,13 @@
 from sqlalchemy import UUID
 
 from sqlalchemy import Column, String, Numeric, Boolean, DateTime
-from sqlalchemy.dialects.postgresql import UNID
+from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from datetime import datetime
-from app.core.database import Base
+from app.core.database import Base 
 
 
-class Prodcut(Base):
+class Product(Base):
     __tablename__ = "product"
 
     id = Column(UUID(as_uuid=True), 
@@ -15,13 +15,14 @@ class Prodcut(Base):
                 default=uuid.uuid4)
     
     name = Column(String, 
-                  nullable=False)
+        nullable=False)
     
     price = Column(Numeric(10, 2),
-                    nullable=False)
+        nullable=False)
     
     active = Column(Boolean, nullable=False, 
-                    default=True)
+        default=True)
+    
     
     crated_at = Column(DateTime, nullable=False, 
-                       default=datetime.utcnow)
+        default=datetime.utcnow)
