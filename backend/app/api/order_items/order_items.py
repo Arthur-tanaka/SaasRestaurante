@@ -10,7 +10,7 @@ from app.schemas.item_schemas import (
     OrderItemResponse,
     OrderItemHistoryResponse,
 )
-from app.services.order_item_service import (
+from app.services.order_item.order_item_service import (
     OrderItemService,
     ItemNotFoundException,
     ItemAlreadyDeliveredException,
