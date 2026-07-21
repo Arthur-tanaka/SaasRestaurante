@@ -13,7 +13,7 @@ class OrderItemHistory(app.core.database.Base):
                 default=uuid.uuid4)
     
     order_item_id = Column(UUID(as_uuid=True),
-                    ForeignKey("order_items.id", ondelete="CASCADE"),
+                    ForeignKey("order_item.id", ondelete="CASCADE"),
                     nullable=False)
     
     private_status = Column(String(50), 
@@ -22,9 +22,8 @@ class OrderItemHistory(app.core.database.Base):
     new_status = Column(String(50),
                     nullable=False)
     
-    changed_key = Column(UUID(as_uuid=True),
-                    ForeignKey("users.id", ondelete="RESTRICT"),
-                    nullable=False)
+    # reativar ForeignKey("users.id") quando o model User for criado
+    changed_key = Column(UUID(as_uuid=True), nullable=False)
     
     reason = Column(Text,
                     nullable=True)
@@ -35,8 +34,9 @@ class OrderItemHistory(app.core.database.Base):
     order_item = relationship("OrderItem", 
                         back_populates="history")
     
-    user = relationship("User", 
-                        back_populates="order_item_histories")
+    # REATIVAR QUANDO MODEL User FOR CRIADO
+    #user = relationship("User", 
+    #                    back_populates="order_item_histories")
 
     def __repr__(self):
         return f"<OrderItemHistory {self.id} - {self.order_item_id} - {self.new_status}>"
