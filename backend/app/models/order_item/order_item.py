@@ -1,10 +1,9 @@
-
 from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Integer, Numeric, String
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from datetime import datetime
 import app.core.database
-
+from sqlalchemy.orm import relationship
 
 class OrderItem(app.core.database.Base):
     __tablename__ = "order_item"
@@ -13,7 +12,6 @@ class OrderItem(app.core.database.Base):
         CheckConstraint("cancelled_quantity >= 0", name="check_cancelled_non_negative"),
         CheckConstraint("cancelled_quantity <= quantity", name="check_cancelled_not_exceed_quantity"),
     )
-
     id = Column(UUID(as_uuid=True), 
                 primary_key=True, 
                 default=uuid.uuid4)
@@ -43,3 +41,5 @@ class OrderItem(app.core.database.Base):
     created_at = Column(DateTime, 
                         nullable=False, 
                         default=datetime.utcnow)
+
+    history = relationship("OrderItemHistory", back_populates="order_item")
