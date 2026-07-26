@@ -31,3 +31,6 @@ class OrderRepository:
         self.db.commit()
         self.db.refresh(order)
         return order
+    
+    def list_all(self) -> list[Order]:
+        return self.db.query(Order).all()
