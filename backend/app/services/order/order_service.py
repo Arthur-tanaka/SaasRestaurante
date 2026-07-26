@@ -24,6 +24,9 @@ class OrderService:
     def get_by_id(self, order_id: UUID) -> Order | None:
         return self.order_repository.get_by_id(order_id)
     
+    def list_all(self) -> list[Order]:
+        return self.order_repository.list_all()
+    
 class OpenOrder:
     def __init__(self, order_service: OrderService):
         self.order_service = order_service
