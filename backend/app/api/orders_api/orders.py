@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.repositories.order_repository.order_repository import OrderRepository
-from app.services.order.order_service import OrderService, OpenOrder
 from app.schemas.order_schemas.order_schemas import OrderCreate
 from app.services.order.order_service import OrderService, OpenOrder, TableAlreadyOccupiedError
 
@@ -27,3 +26,9 @@ def get_order(order_id: UUID, db: Session = Depends(get_db)):
     if not order:
         raise HTTPException(status_code=404, detail="Pedido não encontrado.")
     return order
+
+@router.get("/")
+def list_orders(db: Session = Depends(get_db)):
+    order_repository = OrderRepository(db)
+    order_service = OrderService(order_repository)
+    return order_service.list_all()
