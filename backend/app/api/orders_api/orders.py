@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.repositories.order_repository.order_repository import OrderRepository
 from app.schemas.order_schemas.order_schemas import OrderCreate
-from app.services.order.order_service import OrderService, OpenOrder, TableAlreadyOccupiedError, AddItems
+from app.services.order.order_service import OrderService, OpenOrder, TableAlreadyOccupiedError, AddItems, CloseOrder
 from app.schemas.order_schemas.order_schemas import OrderItemCreate
 from app.services.order_item.order_item_service import OrderItemService
 
@@ -44,3 +44,15 @@ def add_items(order_id: UUID, items: list[OrderItemCreate], created_by: UUID, db
     
     items_data = [{"product_id": item.product_id, "quantity": item.quantity} for item in items]
     return add_items_use_case.execute(order_id, items_data, created_by)
+
+@router.put("/{order_id}/close")
+def close_order(order_id: UUID, people_count: int, db: Session = Depends(get_db)):
+    order_repository = OrderRepository(db)
+    order_service = OrderService(order_repository)
+    order_item_service = OrderItemService(db)
+    close_order_use_case = CloseOrder(order_service, order_item_service)
+    
+    try:
+        return close_order_use_case.execute(order_id, people_count)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
