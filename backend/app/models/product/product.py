@@ -1,4 +1,4 @@
-from sqlalchemy import UUID
+from sqlalchemy import UUID, ForeignKey
 
 from sqlalchemy import Column, String, Numeric, Boolean, DateTime
 from sqlalchemy.dialects.postgresql import UUID
@@ -25,7 +25,7 @@ class Product(Base):
     
     
     category_id = Column(UUID(as_uuid=True),
-                         ForeignKey("categories.id"), nullable=True)
+                        ForeignKey("categories.id"), nullable=True)
 
     crated_at = Column(DateTime, nullable=False, 
 <<<<<<< HEAD
