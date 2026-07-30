@@ -14,3 +14,7 @@ class OrderRead(BaseModel):
     total_amount: Decimal | None
     opened_at: datetime
     closed_at: datetime | None
+    
+class OrderItemCreate(BaseModel):
+    product_id: UUID
+    quantity: int
