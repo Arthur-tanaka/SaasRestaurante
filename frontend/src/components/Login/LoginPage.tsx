@@ -233,7 +233,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
             </a>
           </div>
           <p className="text-xs font-semibold text-secondary opacity-70">
-            © 2024 SaaS Restaurante. All rights reserved.
+            © 2026 SaaS Restaurante. All rights reserved.
           </p>
         </div>
       </footer>

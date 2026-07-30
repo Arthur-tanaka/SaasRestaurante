@@ -49,3 +49,32 @@ class AddItems:
             raise ValueError(f"Pedido {order_id} não está aberto.")
         
         return self.order_item_service.add_items(order_id, items_data, created_by)
+    
+class CloseOrder:
+    def __init__(self, order_service: OrderService, order_item_service: OrderItemService):
+        self.order_service = order_service
+        self.order_item_service = order_item_service
+        
+    def execute(self, order_id: UUID, people_count: int) -> Order:
+        order = self.order_service.get_by_id(order_id)
+        items = self.order_item_service.get_items_by_order(order_id)
+        
+        if not order:
+            raise ValueError(f"Pedido com ID {order_id} não encontrado.")
+        
+        if order.status != 'open':
+            raise ValueError(f"Pedido {order_id} não está aberto.")
+        
+        for item in items:
+            if item.status not in ['delivered', 'cancelled']:
+                raise ValueError(f"Todos os itens do pedido {order_id} devem estar entregues ou cancelados antes de fechar o pedido.")
+        
+        total_amount = sum(
+            item.unit_price * (item.quantity - item.cancelled_quantity) 
+            for item in items
+            if item.status != 'cancelled'
+        )        
+        
+        order.status = 'closed'
+        return self.order_service.order_repository.close_order(order, people_count, total_amount)
+        

@@ -186,7 +186,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
             <Utensils className="text-primary w-6 h-6" />
             <span className="text-xs font-semibold text-primary">SaaS Restaurante</span>
           </div>
-          <p className="text-xs font-semibold text-secondary">© 2024 SaaS Restaurante. All rights reserved.</p>
+          <p className="text-xs font-semibold text-secondary">© 2026 SaaS Restaurante. All rights reserved.</p>
           <div className="flex gap-4">
             <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Terms of Service
