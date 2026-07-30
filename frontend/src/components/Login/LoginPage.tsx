@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Mail, Lock, ArrowRight, Utensils, Eye, EyeOff, Shield, Zap } from 'lucide-react';
+import { 
+  Mail, Lock, ArrowRight, Utensils, Eye, EyeOff, Shield, Zap 
+} from 'lucide-react';
 import { api } from '../../services/api';
 
-const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  onNavigate?: (page: 'login' | 'register' | 'support' | 'forgot-password') => void;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +34,24 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  const handleRegisterClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('register');
+    }
+  };
+
+  const handleForgotPasswordClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('forgot-password');
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 bg-background flex items-center justify-center h-16 px-4 md:px-8 z-50">
+      <header className="sticky top-0 bg-background flex items-center justify-center h-16 px-4 md:px-8 z-50 border-b border-outline-variant">
         <div className="flex items-center gap-2">
           <Utensils className="text-primary w-6 h-6" />
           <h1 className="text-2xl font-bold text-primary">SaaS Restaurante</h1>
@@ -46,12 +66,12 @@ const LoginPage: React.FC = () => {
 
         <div className="w-full max-w-md space-y-6 z-10">
           {/* Login Card */}
-          <div className="login-card p-8 transition-all duration-300">
+          <div className="bg-white login-card border border-outline-variant rounded-xl p-8 transition-all duration-300 shadow-sm">
             <div className="text-center mb-8">
-              <h2 className="text-headline-lg text-on-surface mb-2">
+              <h2 className="text-3xl font-semibold text-on-surface mb-2">
                 Bem-vindo de volta
               </h2>
-              <p className="text-body-md text-on-surface-variant">
+              <p className="text-base text-on-surface-variant">
                 Acesse sua plataforma de gestão gastronômica
               </p>
             </div>
@@ -65,13 +85,13 @@ const LoginPage: React.FC = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Email Field */}
               <div className="space-y-1">
-                <label className="text-label-sm text-on-surface-variant ml-1" htmlFor="email">
+                <label className="text-xs font-semibold text-on-surface-variant ml-1" htmlFor="email">
                   E-mail Corporativo
                 </label>
                 <div className="relative group">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors w-5 h-5" />
                   <input
-                    className="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all text-body-md"
+                    className="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all text-base"
                     id="email"
                     name="email"
                     placeholder="nome@restaurante.com"
@@ -87,17 +107,21 @@ const LoginPage: React.FC = () => {
               {/* Password Field */}
               <div className="space-y-1">
                 <div className="flex justify-between items-center px-1">
-                  <label className="text-label-sm text-on-surface-variant" htmlFor="password">
+                  <label className="text-xs font-semibold text-on-surface-variant" htmlFor="password">
                     Senha
                   </label>
-                  <a className="text-label-sm text-primary hover:underline transition-all" href="#">
+                  <button
+                    onClick={handleForgotPasswordClick}
+                    className="text-xs font-semibold text-primary hover:underline transition-all bg-transparent border-none cursor-pointer"
+                    type="button"
+                  >
                     Esqueceu a senha?
-                  </a>
+                  </button>
                 </div>
                 <div className="relative group">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors w-5 h-5" />
                   <input
-                    className="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all text-body-md"
+                    className="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-transparent rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all text-base"
                     id="password"
                     name="password"
                     placeholder="••••••••"
@@ -120,7 +144,7 @@ const LoginPage: React.FC = () => {
 
               {/* Submit Button */}
               <button
-                className="w-full bg-primary-container text-on-primary-container text-label-md py-4 rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-primary-container text-on-primary-container text-sm font-medium py-4 rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
                 disabled={loading}
               >
@@ -145,29 +169,33 @@ const LoginPage: React.FC = () => {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-outline-variant"></div>
               </div>
-              <div className="relative flex justify-center text-label-sm uppercase">
-                <span className="bg-surface-container-lowest px-4 text-on-surface-variant">Ou continue com</span>
+              <div className="relative flex justify-center text-xs font-semibold uppercase">
+                <span className="bg-white px-4 text-on-surface-variant">Ou continue com</span>
               </div>
             </div>
 
             {/* Social Login */}
-            <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-outline-variant rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-200">
+            <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-outline-variant rounded-lg bg-white hover:bg-surface-container-low transition-colors duration-200">
               <img
                 className="w-5 h-5"
                 alt="Google logo"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIhxXPbNMSJ-y60j8kg6TEccO6sg2xah38VKyTMXsZ_5fudVr3-yeswU21mvwbZCV4_YrBpFLKrEFrNhRn6CX0jJVIQuBrS33FSxJusCTI6wN4vRHfqbOkwI7_6k-negMWKTqqULXMh6gMLbBq8YJrg0YQuk3dt7q3tniMo7MMZ_i4sqdC0MQMsUEhNgp4B2aoCfAT4iPqYk3yxgLTu9lnRyL2FFngbg59OK_MekQK4fA3y-gznONr"
               />
-              <span className="text-label-md text-on-surface">
+              <span className="text-sm font-medium text-on-surface">
                 Google Workspace
               </span>
             </button>
 
             <div className="mt-8 text-center">
-              <p className="text-body-md text-on-surface-variant">
+              <p className="text-base text-on-surface-variant">
                 Novo por aqui?
-                <a className="text-primary font-semibold hover:underline ml-1" href="#">
+                <button
+                  onClick={handleRegisterClick}
+                  className="text-primary font-semibold hover:underline ml-1 bg-transparent border-none cursor-pointer"
+                  type="button"
+                >
                   Criar uma conta
-                </a>
+                </button>
               </p>
             </div>
           </div>
@@ -176,36 +204,37 @@ const LoginPage: React.FC = () => {
           <div className="flex items-center justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             <div className="flex items-center gap-1">
               <Shield className="w-4 h-4" />
-              <span className="text-label-sm">Dados protegidos</span>
+              <span className="text-xs font-semibold">Dados protegidos</span>
             </div>
             <div className="flex items-center gap-1">
               <Zap className="w-4 h-4" />
-              <span className="text-label-sm">Acesso rápido</span>
+              <span className="text-xs font-semibold">Acesso rápido</span>
             </div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-8 bg-surface-container-lowest border-t border-outline-variant">
-        <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 gap-4">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <span className="text-headline-md text-primary">SaaS Restaurante</span>
-            <p className="text-label-sm text-secondary">
-              © 2024 SaaS Restaurante. All rights reserved.
-            </p>
+      <footer className="w-full py-8 bg-white border-t border-outline-variant px-4 md:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Utensils className="text-primary w-6 h-6" />
+            <span className="text-2xl font-semibold text-primary">SaaS Restaurante</span>
           </div>
-          <nav className="flex gap-6">
-            <a className="text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 hover:underline" href="#">
+          <div className="flex flex-wrap justify-center gap-4">
+            <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Terms of Service
             </a>
-            <a className="text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 hover:underline" href="#">
+            <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Privacy Policy
             </a>
-            <a className="text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 hover:underline" href="#">
+            <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Contact Support
             </a>
-          </nav>
+          </div>
+          <p className="text-xs font-semibold text-secondary opacity-70">
+            © 2024 SaaS Restaurante. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
