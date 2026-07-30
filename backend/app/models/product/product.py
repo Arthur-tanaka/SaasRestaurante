@@ -28,9 +28,4 @@ class Product(Base):
                         ForeignKey("categories.id"), nullable=True)
 
     crated_at = Column(DateTime, nullable=False, 
-<<<<<<< HEAD
-        default=datetime.utcnow)
-=======
-                       default=datetime.utcnow)
-    
->>>>>>> feature/devpedro
+                        default=datetime.utcnow)
