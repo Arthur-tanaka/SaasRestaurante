@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-inter antialiased;
+  }
+}
+
+@layer components {
+  .login-card {
+    @apply bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
+  }
+}

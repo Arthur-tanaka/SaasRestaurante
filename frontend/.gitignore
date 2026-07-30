@@ -1,0 +1,35 @@
+# Criar .gitignore na raiz (não no frontend)
+echo "node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+dist/
+build/
+*.log
+.env
+.env.local
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+coverage/
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+" > .gitignore
+
+# Adicionar .gitignore
+git add .gitignore
