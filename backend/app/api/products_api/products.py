@@ -3,14 +3,14 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 from typing import List
 
-from ..schemas.product_schemas import ProductCreate, ProductUpdate, ProductResponse
-from ..services.product_service import (
+from app.schemas.product_schemas.product_schemas import ProductCreate, ProductUpdate, ProductResponse
+from app.services.product_service.get_product_service import (
     ProductService,
     ProductNotFoundException,
     InvalidProductPriceException,
 )
 
-from ..dependencies import get_product_service
+from app.dependencies import get_product_service
 
 router = APIRouter(prefix="/products", tags=["products"])
 

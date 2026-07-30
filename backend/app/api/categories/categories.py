@@ -4,8 +4,8 @@ from uuid import UUID
 from typing import List
 
 from app.core.database import get_db
-from app.schemas.category_schemas import CategoryCreate, CategoryUpdate, CategoryResponse
-from app.services.category_service import CategoryService, CategoryNotFoundException
+from app.schemas.category.category_schemas import CategoryCreate, CategoryUpdate, CategoryResponse
+from app.services.category.category_service import CategoryService, CategoryNotFoundException
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 
