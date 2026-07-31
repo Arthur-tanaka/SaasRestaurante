@@ -10,18 +10,11 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowRight,
-  X,
   Send,
-  HelpCircle,
   AlertCircle,
   CheckCircle,
-  Clock,
-  FileText,
-  MessageSquare,
-  Phone,
-  Headphones,
-  User,
-  Check
+  Menu,
+  X
 } from 'lucide-react';
 import { api } from '../../services/api';
 
@@ -47,6 +40,7 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const [faqs, setFaqs] = useState<FaqItem[]>([
     {
       id: 1,
@@ -86,7 +80,6 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
     description: ''
   });
 
-  // Função para alternar FAQ
   const toggleFaq = (id: number) => {
     setFaqs(prev => prev.map(faq => ({
       ...faq,
@@ -94,20 +87,17 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
     })));
   };
 
-  // Função para mudanças no formulário
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (error) setError('');
   };
 
-  // Função para enviar o chamado
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
 
-    // Validação
     if (!formData.subject.trim()) {
       setError('Por favor, informe o assunto');
       return;
@@ -124,7 +114,6 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
     setLoading(true);
 
     try {
-      // Tenta enviar para a API
       const token = localStorage.getItem('token');
       const response = await api.post('/support/tickets', {
         subject: formData.subject,
@@ -136,20 +125,17 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
       setSuccess(true);
       setLoading(false);
       
-      // Limpar formulário
       setFormData({
         subject: '',
         category: '',
         description: ''
       });
 
-      // Esconder mensagem de sucesso após 5 segundos
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
 
     } catch (err: any) {
-      // Se a API não estiver disponível, simula o envio (modo desenvolvimento)
       if (import.meta.env) {
         console.log('Modo desenvolvimento: Simulando envio de chamado');
         await new Promise(resolve => setTimeout(resolve, 1500));
@@ -171,17 +157,40 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
     }
   };
 
-  // Função para navegar para o login
   const handleGoToLogin = (e: React.MouseEvent) => {
     e.preventDefault();
+    setMenuOpen(false);
     if (onNavigate) {
       onNavigate('login');
-    } else {
-      window.location.href = '/login';
     }
   };
 
-  // Filtrar FAQs baseado na busca
+  const handleGoToRegister = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('register');
+    }
+  };
+
+  const handleGoToForgotPassword = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('forgot-password');
+    }
+  };
+
+  const handleSupportClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    // Se já está no suporte, não faz nada
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   const filteredFaqs = faqs.filter(faq =>
     faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
     faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
@@ -189,27 +198,30 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
+      {/* Header com Menu Hamburguer */}
       <header className="sticky top-0 bg-background flex items-center justify-between h-16 px-4 md:px-8 z-50 border-b border-outline-variant shadow-sm">
         <div className="flex items-center gap-2">
           <Utensils className="text-primary w-6 h-6" />
-          <h1 className="text-2xl font-bold text-primary">SaaS Restaurante</h1>
+          <h1 className="text-2xl font-bold text-primary">Suporte</h1>
         </div>
+        
+        {/* Menu Desktop */}
         <nav className="hidden md:flex items-center gap-6">
           <button
             onClick={handleGoToLogin}
-            className="text-on-surface-variant hover:opacity-80 transition-opacity text-sm font-medium bg-transparent border-none cursor-pointer"
+            className="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium bg-transparent border-none cursor-pointer"
           >
-           {/*  Dashboard */}
+            Sair
           </button>
           <button
             onClick={handleGoToLogin}
-            className="text-on-surface-variant hover:opacity-80 transition-opacity text-sm font-medium bg-transparent border-none cursor-pointer"
+            className="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium bg-transparent border-none cursor-pointer"
           >
-            Voltar
+            {/* Cardápio */}
           </button>
           <span className="text-primary font-bold text-sm">Suporte</span>
         </nav>
+
         <div className="flex items-center gap-4">
           <button className="transition-transform active:scale-95 hover:opacity-80">
             <Bell className="w-5 h-5 text-on-surface-variant" />
@@ -218,10 +230,55 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
             onClick={handleGoToLogin}
             className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-xs hover:opacity-80 transition-opacity"
           >
-           JD
+            JD
+          </button>
+          
+          {/* Botão Hamburguer - Mobile */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+            aria-label="Menu"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </header>
+
+      {/* Menu Mobile */}
+      {menuOpen && (
+        <div className="md:hidden fixed inset-0 top-16 bg-background z-40 p-4 border-b border-outline-variant">
+          <nav className="flex flex-col gap-4">
+            <button
+              onClick={handleGoToLogin}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={handleGoToLogin}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Cardápio
+            </button>
+            <button
+              onClick={handleGoToRegister}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Criar Conta
+            </button>
+            <button
+              onClick={handleGoToForgotPassword}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Esqueceu a Senha?
+            </button>
+            <hr className="border-outline-variant" />
+            <div className="px-4 py-2 text-sm text-on-surface-variant">
+              <p>© 2026 SaaS Restaurante</p>
+            </div>
+          </nav>
+        </div>
+      )}
 
       <main className="flex-grow pb-20">
         {/* Hero Section */}
@@ -463,8 +520,7 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 bg-surface-container-lowest border-t border-outline-variant px-4 md:px-8 mt-12">
+      <footer className="w-full py-8 bg-surface-container-lowest border-t border-outline-variant px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Utensils className="text-primary w-6 h-6" />
@@ -477,12 +533,7 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
             <a className="text-on-surface-variant hover:text-primary hover:underline text-xs font-semibold transition-colors duration-200" href="#">
               Privacy Policy
             </a>
-            <button
-              onClick={handleGoToLogin}
-              className="text-primary font-semibold hover:underline text-xs transition-colors duration-200 bg-transparent border-none cursor-pointer"
-            >
-              Contact Support
-            </button>
+            <span className="text-primary font-semibold text-xs">Contact Support</span>
           </div>
           <p className="text-secondary text-xs font-semibold text-center">
             © 2026 SaaS Restaurante. All rights reserved.

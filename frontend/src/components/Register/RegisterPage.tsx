@@ -12,7 +12,9 @@ import {
   Eye,
   EyeOff,
   AlertCircle,
-  Check
+  Check,
+  Menu,
+  X
 } from 'lucide-react';
 import { api } from '../../services/api';
 
@@ -37,6 +39,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState<RegisterFormData>({
     fullName: '',
     restaurantName: '',
@@ -174,6 +177,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
 
   const handleGoToLogin = (e: React.MouseEvent) => {
     e.preventDefault();
+    setMenuOpen(false);
     if (onNavigate) {
       onNavigate('login');
     } else {
@@ -183,19 +187,88 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
 
   const handleSupportClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    setMenuOpen(false);
     if (onNavigate) {
       onNavigate('support');
     }
   };
 
+  const handleForgotPasswordClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('forgot-password');
+    }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <header className="sticky top-0 bg-background flex items-center justify-center h-16 px-4 md:px-8 z-50 border-b border-outline-variant">
+      {/* Header com Menu Hamburguer */}
+      <header className="sticky top-0 bg-background flex items-center justify-between h-16 px-4 md:px-8 z-50 border-b border-outline-variant">
         <div className="flex items-center gap-2">
           <Utensils className="text-primary w-6 h-6" />
           <h1 className="text-2xl font-bold text-primary">SaaS Restaurante</h1>
         </div>
+        
+        {/* Menu Desktop */}
+        <nav className="hidden md:flex items-center gap-6">
+          <button
+            onClick={handleGoToLogin}
+            className="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium bg-transparent border-none cursor-pointer"
+          >
+            Login
+          </button>
+          <button
+            onClick={handleSupportClick}
+            className="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium bg-transparent border-none cursor-pointer"
+          >
+            Suporte
+          </button>
+        </nav>
+
+        {/* Botão Hamburguer - Mobile */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+          aria-label="Menu"
+        >
+          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </header>
+
+      {/* Menu Mobile */}
+      {menuOpen && (
+        <div className="md:hidden fixed inset-0 top-16 bg-background z-40 p-4 border-b border-outline-variant">
+          <nav className="flex flex-col gap-4">
+            <button
+              onClick={handleGoToLogin}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Login
+            </button>
+            <button
+              onClick={handleSupportClick}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Suporte
+            </button>
+            <button
+              onClick={handleForgotPasswordClick}
+              className="w-full text-left px-4 py-3 rounded-lg hover:bg-surface-container-low transition-colors text-base font-medium"
+            >
+              Esqueceu a Senha?
+            </button>
+            <hr className="border-outline-variant" />
+            <div className="px-4 py-2 text-sm text-on-surface-variant">
+              <p>© 2026 SaaS Restaurante</p>
+            </div>
+          </nav>
+        </div>
+      )}
 
       <main className="flex-grow flex items-center justify-center py-12 px-4 md:px-8">
         <div className="w-full max-w-4xl grid md:grid-cols-2 bg-surface-container-lowest rounded-xl overflow-hidden soft-shadow border border-outline-variant">
@@ -492,7 +565,6 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
         </div>
       </main>
 
-      {/* Footer com Contact Support */}
       <footer className="w-full py-8 bg-surface-container-lowest border-t border-outline-variant px-4 md:px-8 mt-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
@@ -514,7 +586,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
             </button>
           </div>
           <p className="text-xs font-semibold text-secondary opacity-70">
-            © 2024 SaaS Restaurante. All rights reserved.
+            © 2026 SaaS Restaurante. All rights reserved.
           </p>
         </div>
       </footer>
