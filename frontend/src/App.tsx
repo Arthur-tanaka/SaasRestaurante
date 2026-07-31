@@ -18,7 +18,7 @@ function App() {
     <div className="min-h-screen bg-background">
       {currentPage === 'login' && <LoginPage onNavigate={navigateTo} />}
       {currentPage === 'register' && <RegisterPage onNavigate={navigateTo} />}
-      {currentPage === 'support' && <SupportPage />}
+      {currentPage === 'support' && <SupportPage onNavigate={navigateTo} />}
       {currentPage === 'forgot-password' && <ForgotPasswordPage onNavigate={navigateTo} />}
     </div>
   );

@@ -48,6 +48,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
     }
   };
 
+  const handleSupportClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('support');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
@@ -60,12 +67,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
 
       {/* Main */}
       <main className="flex-grow flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
-        {/* Decorative elements */}
         <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container opacity-5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-[-10%] left-[-5%] w-80 h-80 bg-tertiary-container opacity-5 rounded-full blur-3xl"></div>
 
         <div className="w-full max-w-md space-y-6 z-10">
-          {/* Login Card */}
           <div className="bg-white login-card border border-outline-variant rounded-xl p-8 transition-all duration-300 shadow-sm">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-semibold text-on-surface mb-2">
@@ -83,7 +88,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
             )}
 
             <form className="space-y-6" onSubmit={handleSubmit}>
-              {/* Email Field */}
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-on-surface-variant ml-1" htmlFor="email">
                   E-mail Corporativo
@@ -104,7 +108,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div className="space-y-1">
                 <div className="flex justify-between items-center px-1">
                   <label className="text-xs font-semibold text-on-surface-variant" htmlFor="password">
@@ -142,7 +145,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
                 className="w-full bg-primary-container text-on-primary-container text-sm font-medium py-4 rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
@@ -174,7 +176,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Social Login */}
             <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-outline-variant rounded-lg bg-white hover:bg-surface-container-low transition-colors duration-200">
               <img
                 className="w-5 h-5"
@@ -200,7 +201,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Trust Badge */}
           <div className="flex items-center justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
             <div className="flex items-center gap-1">
               <Shield className="w-4 h-4" />
@@ -214,7 +214,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer com Contact Support */}
       <footer className="w-full py-8 bg-white border-t border-outline-variant px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
@@ -228,9 +228,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
             <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Privacy Policy
             </a>
-            <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
+            <button
+              onClick={handleSupportClick}
+              className="text-xs font-semibold text-primary hover:underline transition-colors duration-200 bg-transparent border-none cursor-pointer"
+            >
               Contact Support
-            </a>
+            </button>
           </div>
           <p className="text-xs font-semibold text-secondary opacity-70">
             © 2026 SaaS Restaurante. All rights reserved.

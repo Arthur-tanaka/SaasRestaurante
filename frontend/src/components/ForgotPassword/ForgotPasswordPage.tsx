@@ -34,7 +34,6 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
     setLoading(true);
 
     try {
-      // ✅ Agora o método está disponível no api.ts
       const response = await api.forgotPassword(email);
       console.log('Password reset email sent:', response);
       setSuccess(true);

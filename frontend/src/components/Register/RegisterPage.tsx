@@ -181,6 +181,13 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
     }
   };
 
+  const handleSupportClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('support');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="sticky top-0 bg-background flex items-center justify-center h-16 px-4 md:px-8 z-50 border-b border-outline-variant">
@@ -485,6 +492,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
         </div>
       </main>
 
+      {/* Footer com Contact Support */}
       <footer className="w-full py-8 bg-surface-container-lowest border-t border-outline-variant px-4 md:px-8 mt-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
@@ -498,12 +506,15 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
             <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
               Privacy Policy
             </a>
-            <a className="text-xs font-semibold text-on-surface-variant hover:text-primary hover:underline transition-colors duration-200" href="#">
+            <button
+              onClick={handleSupportClick}
+              className="text-xs font-semibold text-primary hover:underline transition-colors duration-200 bg-transparent border-none cursor-pointer"
+            >
               Contact Support
-            </a>
+            </button>
           </div>
           <p className="text-xs font-semibold text-secondary opacity-70">
-            © 2026 SaaS Restaurante. All rights reserved.
+            © 2024 SaaS Restaurante. All rights reserved.
           </p>
         </div>
       </footer>
