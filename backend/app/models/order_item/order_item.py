@@ -20,7 +20,7 @@ class OrderItem(app.core.database.Base):
                       ForeignKey("order.id"), 
                       nullable=False)
     
-    prduct_id = Column(UUID(as_uuid=True), 
+    product_id = Column(UUID(as_uuid=True), 
                        ForeignKey("product.id"), 
                        nullable=False)
     

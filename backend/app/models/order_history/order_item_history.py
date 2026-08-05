@@ -16,14 +16,14 @@ class OrderItemHistory(app.core.database.Base):
                     ForeignKey("order_item.id", ondelete="CASCADE"),
                     nullable=False)
     
-    private_status = Column(String(50), 
+    previous_status = Column(String(50), 
                     nullable=True)
     
     new_status = Column(String(50),
                     nullable=False)
     
     # reativar ForeignKey("users.id") quando o model User for criado
-    changed_key = Column(UUID(as_uuid=True), nullable=False)
+    changed_by = Column(UUID(as_uuid=True), nullable=False)
     
     reason = Column(Text,
                     nullable=True)
