@@ -24,13 +24,7 @@ class Product(Base):
         default=True)
     
     
-    category_id = Column(UUID(as_uuid=True),
-                        ForeignKey("categories.id"), nullable=True)
+    category_id = Column(UUID(as_uuid=True), nullable=True)
 
     crated_at = Column(DateTime, nullable=False, 
-<<<<<<< HEAD
-        default=datetime.utcnow)
-=======
-                       default=datetime.utcnow)
-    
->>>>>>> feature/devpedro
+                        default=datetime.utcnow)
